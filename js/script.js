@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
    });
 
-   const modalTimerId = setTimeout(openModal, 50000);
+   // const modalTimerId = setTimeout(openModal, 50000);
 
    function showModalByScroll() {
       if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
@@ -150,15 +150,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
    // Формирование карточек динамически из сервера
 
-   const getResource = async (url) => {
-      const res = await fetch(url);
+   // const getResource = async (url) => {
+   //    const res = await fetch(url);
 
-      if(!res.ok) {
-         throw new Error(`Could not fetch ${url}, status ${res.status}`);
-      }
+   //    if(!res.ok) {
+   //       throw new Error(`Could not fetch ${url}, status ${res.status}`);
+   //    }
 
-      return await res.json();
-   };
+   //    return await res.json();
+   // };
 
    // getResource('http://localhost:3000/menu')
    //    .then(data => createCard(data));
@@ -276,8 +276,56 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 4000);
    }
 
-   // fetch('http://localhost:3000/menu')
-   // .then(data => data.json())
-   // .then(res => console.log(res));
+   // Слайдер
+
+   const prev = document.querySelector('.offer__slider-prev'), // стрелка влево
+         next = document.querySelector('.offer__slider-next'), // стрелка вправо
+         slides = document.querySelectorAll('.offer__slide'), // псевдомассив из слайдов
+         total = document.querySelector('#total'), // общее количество слайдов
+         current = document.querySelector('#current'); // цифра показывает текущий номер
+   
+   let slideIndex = 1;
+
+   showSlide();
+
+   if (slides.length < 10) {
+      total.textContent = `0${slides.length}`;
+   } else {
+      total.textContent = slides.length;
+   }
+
+   function showSlide(n) {
+      if (n > slides.length) {
+         slideIndex = 1;
+      } 
+      
+      if (n < 1) {
+         slideIndex = slides.length;
+      }
+
+      slides.forEach(item => {
+         item.style.display = 'none';
+      });
+
+      slides[slideIndex - 1].style.display = 'block';
+
+      if (slides.length < 10) {
+         current.textContent = `0${slideIndex}`;
+      } else {
+         current.textContent = slideIndex;
+      }
+   }
+
+   function plusSlides(n) {
+      showSlide(slideIndex += n);
+   }
+
+   prev.addEventListener('click', () => {
+      plusSlides(-1);
+   });
+
+   next.addEventListener('click', () => {
+      plusSlides(1);
+   });
 
 });
