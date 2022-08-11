@@ -160,8 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return await res.json();
    };
 
-   getResource('http://localhost:3000/menu')
-      .then(data => createCard(data));
+   // getResource('http://localhost:3000/menu')
+   //    .then(data => createCard(data));
+
+   axios.get('http://localhost:3000/menu')
+      .then(data => createCard(data.data));
 
    function createCard(data) {
       data.forEach(({img, altimg, title, descr, price}) => {
@@ -228,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
          
          const formData = new FormData(form);
          
-         const json = JSON.stringify(Object.fromEntries(formData.entries()))
+         const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
          // Использование fetch API
 
